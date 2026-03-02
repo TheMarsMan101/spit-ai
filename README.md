@@ -36,7 +36,7 @@ Talk to an AI directly from Minecraft chat. Spit AI bridges your Minecraft Java 
 - **Smart chunking** — long responses are automatically split across multiple messages to stay within Minecraft's 256-character chat limit.
 - **Context-aware** — ambiguous questions like `"where do I find iron?"` default to Minecraft context, while clearly real-world questions get normal answers.
 - **Runs 100% locally** — no API keys, no cloud services, no data leaving your machine. Just Ollama and a Python script.
-- **Any Ollama model** — use Llama, Mistral, Gemma, Phi, or any model Ollama supports.
+- **Any Ollama model** — use Llama, Mistral, Gemma, Phi, or [any model Ollama supports](https://ollama.com/library).
 
 ---
 
@@ -81,7 +81,7 @@ ollama pull llama3.1:8b
 Clone this repo or download `bridge.py` directly:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/spit-ai.git
+git clone https://github.com/TheMarsMan101/spit-ai.git
 cd spit-ai
 ```
 
@@ -92,7 +92,7 @@ cd spit-ai
 Spit AI uses `xdotool` to simulate keyboard input — it physically takes over the Minecraft window to open chat, type the response, and press Enter. This means:
 
 - **You need a dedicated Minecraft account** for Spit AI to run on. This account logs into the world or server and acts as the bot. It cannot be the same account you play on.
-- **It's not advised to play on the same machine or VM** that Spit AI is running on. When a response comes in, `xdotool` steals window focus for about 1 second, which will interrupt whatever you're doing.
+- **It's not advised to play on the same machine or VM** that Spit AI is running on. When a response comes in, `xdotool` steals window focus for about 1 second, which will interrupt whatever you're doing. Additionally, if you have multiple Minecraft instances open on the same machine, the bot has no way to distinguish between them — it will take over whichever instance has priority, which could be your personal account instead of the bot's.
 - **If you want to play and run Spit AI**, you need two Minecraft accounts and ideally two machines (or a separate VM for the bot). One account plays normally, the other sits in-game as the Spit AI bot.
 
 For LAN worlds, the dedicated bot account joins your LAN world as a second player. For servers, the bot account joins the server like any other player.
@@ -144,7 +144,7 @@ Does anyone know, @Spit, what time the sun sets?
 
 | Flag | Default | Description |
 |---|---|---|
-| `--model` | `llama3.1:8b` | Ollama model name (run `ollama list` to see available models) |
+| `--model` | `llama3.1:8b` | Ollama model name (run `ollama list` to see installed models, or [browse all available models](https://ollama.com/library)) |
 | `--log` | `~/.minecraft/logs/latest.log` | Path to Minecraft's log file |
 | `--trigger` | `@spit` | Chat trigger phrase |
 | `--ignore` | *(none)* | Space-separated player names to ignore |
@@ -314,12 +314,17 @@ Use `--self-name BotAccountName` to auto-ignore the bot's own messages. The `[Sp
 
 If the `xdotool` method doesn't suit your needs, here are other ways to achieve a similar result:
 
-| Approach | Pros | Cons |
-|---|---|---|
-| **Spit AI (this project)** | No mods needed, no extra accounts, simple setup | Briefly steals window focus |
-| **Fabric / Forge mod** | Native integration, cleanest experience | Requires Java mod development |
-| **Mineflayer bot (Node.js)** | Robust, no window stealing, full chat control | Needs a second account or offline mode |
-| **RCON** | No window interaction, server-side | Only works on dedicated servers with RCON enabled |
+| | Spit AI | Fabric/Forge Mod | Mineflayer Bot | RCON |
+|---|---|---|---|---|
+| **Cost** | Free | Free | Free | Free |
+| **Privacy** | ✅ Fully local | Depends | Depends on LLM | Depends on LLM |
+| **Mods needed** | ✅ None | Java mod dev | None | None |
+| **Extra account** | Yes | ✅ No | Yes | ✅ No |
+| **Setup difficulty** | Low | High | Medium | Medium |
+| **LAN support** | ✅ Yes | ✅ Yes | ✅ Yes | ❌ No |
+| **Steals focus** | Yes | ✅ No | ✅ No | ✅ No |
+| **Any LLM model** | ✅ Yes | Depends | Depends | Depends |
+| **MC update proof** | ✅ Yes | ❌ Breaks often | ✅ Yes | ✅ Yes |
 
 ---
 
