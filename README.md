@@ -103,19 +103,24 @@ For LAN worlds, the dedicated bot account joins your LAN world as a second playe
 
 You need **three things running** on the bot's machine at the same time:
 
-1. **Ollama** — in one terminal
-2. **bridge.py** — in a second terminal
-3. **Minecraft** — logged into the bot's dedicated account, joined to the world or server
+1. **Minecraft** — **launch first.** Log into the bot's dedicated account and join the world or server
+2. **Ollama** — running as a service or in the background
+3. **bridge.py** — **launch last.** It needs Minecraft's log file to exist and starts reading from the end, so it only catches new messages
 
-### Start Ollama
+### Start Ollama and the bridge
+
+> **⚠️ Make sure Minecraft is open and in-game before starting the bridge.** The bridge reads from Minecraft's `latest.log`, which doesn't exist until the game is running. If you start the bridge first, it will exit with a "log file not found" error.
+
+Ollama often runs as a system service automatically after installation. You can check with `curl http://localhost:11434` — if it responds, you're good to go and can skip straight to the bridge:
 
 ```bash
-ollama serve
+python3 bridge.py
 ```
 
-### Start the bridge
+If Ollama isn't running, start it in the background first:
 
 ```bash
+ollama serve &
 python3 bridge.py
 ```
 
