@@ -111,16 +111,15 @@ You need **three things running** on the bot's machine at the same time:
 
 > **⚠️ Make sure Minecraft is open and in-game before starting the bridge.** The bridge reads from Minecraft's `latest.log`, which doesn't exist until the game is running. If you start the bridge first, it will exit with a "log file not found" error.
 
-Ollama often runs as a system service automatically after installation. You can check with `curl http://localhost:11434` — if it responds, you're good to go and can skip straight to the bridge:
-
-```bash
-python3 bridge.py
-```
-
-If Ollama isn't running, start it in the background first:
+Ollama often runs as a system service automatically after installation. You can check with `curl http://localhost:11434` — if it responds, you're good. If not, start it first:
 
 ```bash
 ollama serve &
+```
+
+Then start the bridge:
+
+```bash
 python3 bridge.py
 ```
 
